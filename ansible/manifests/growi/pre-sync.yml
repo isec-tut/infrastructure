@@ -13,6 +13,14 @@ spec:
   template:
     spec:
       containers:
+        - name: elasticsearch
+          image: ghcr.io/isec-tut/containers/elasticsearch@sha256:4d772e11c2f5f500ec01ea8215cf8593cefb26a801059a6d3f25d38e9f345b59
+          command: ["/bin/sh"]
+          args: ["-c", "exit 0"]
+        - name: mongo
+          image: mongo:4.4
+          command: ["/bin/sh"]
+          args: ["-c", "exit 0"]
         - name: growi
           image: ghcr.io/isec-tut/containers/growi@sha256:9cae70af419d1136054cb4dea2268c9dfdb349f476d3fb398a7c751e554eee38
           command: ["/bin/sh"]

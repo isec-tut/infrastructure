@@ -17,6 +17,7 @@ data:
   FORCE_WIKI_MODE: undefined
   AUDIT_LOG_ENABLED: "true"
   TRUST_PROXY_BOOL: "true"
+  OAUTH_OIDC_CLIENT_ID: "growi"
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -52,6 +53,16 @@ spec:
                 secretKeyRef:
                   name: growi-secrets
                   key: growi_mongodb_uri
+            - name: OAUTH_OIDC_ISSUER_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: growi-secrets
+                  key: growi_oidc_issuer_host
+            - name: OAUTH_OIDC_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: growi-secrets
+                  key: growi_client_secret
           volumeMounts:
             - name: data
               mountPath: /data
