@@ -24,7 +24,7 @@ cleanup-cloudimg:
 
 .PHONY: download-cloudimg
 download-cloudimg:
-	ssh root@$(PROXMOX_ADDRESS) wget -q https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img
+	ssh root@$(PROXMOX_ADDRESS) wget -q https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img -O jammy-server-cloudimg-amd64.img
 
 .PHONY: destroy-template
 destroy-template:

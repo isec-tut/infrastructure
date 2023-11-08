@@ -1,6 +1,6 @@
 VAULT_DIR := $(CURDIR)/../../vault
 
-TARGET_VM_IP_ADDR := 172.16.50.16
+TARGET_VM_IP_ADDR := 172.16.50.15
 
 .PHONY: clean
 clean:
@@ -20,3 +20,8 @@ cluster: clean credential
 app:
 	cd $(CURDIR) ; \
 	cat manifests/application.yml | ssh isec@$(TARGET_VM_IP_ADDR) -i ../.ssh/gpg.pub kubectl apply -f -
+
+.PHONY: delete-app
+delete-app:
+	cd $(CURDIR) ; \
+	cat manifests/application.yml | ssh isec@$(TARGET_VM_IP_ADDR) -i ../.ssh/gpg.pub kubectl delete -f -
