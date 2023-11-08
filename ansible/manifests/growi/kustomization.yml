@@ -1,0 +1,9 @@
+resources:
+  - pre-sync.yml
+  - persistent-volume.yml
+  - secret.yml
+  - redis.yml
+  - elasticsearch.yml
+  - mongodb.yml
+  - plantuml.yml
+  - growi.yml

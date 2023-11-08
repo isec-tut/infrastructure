@@ -1,0 +1,75 @@
+---
+# file: roles/common/tasks/main.yml
+- name: Update all packages to their latest version
+  ansible.builtin.apt:
+    name: "*"
+    state: latest # noqa package-latest
+    update_cache: true
+  become: true
+
+- name: Install a list of common packages
+  ansible.builtin.apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - open-iscsi
+      - nfs-common
+      - python3-pip
+      - jq
+      - sysstat
+    state: present
+    update_cache: true
+  become: true
+
+- name: Install kubernetes pre-requisites
+  ansible.builtin.pip:
+    name:
+      - pyyaml
+      - kubernetes
+  become: false
+
+- name: For common
+  block:
+    - name: Import dns.yml
+      ansible.builtin.import_tasks:
+        file: dns.yml
+
+    - name: Import timezone.yml
+      ansible.builtin.import_tasks:
+        file: timezone.yml
+
+    - name: Import swap.yml
+      ansible.builtin.import_tasks:
+        file: swap.yml
+
+    - name: Import logrotate.yml
+      ansible.builtin.import_tasks:
+        file: logrotate.yml
+
+    - name: Import kernel.yml
+      ansible.builtin.import_tasks:
+        file: kernel.yml
+
+    - name: Import watchdog.yml
+      ansible.builtin.import_tasks:
+        file: watchdog.yml
+
+    - name: Import argo-cd.yml
+      ansible.builtin.import_tasks:
+        file: argo-cd.yml
+
+    - name: Import helm.yml
+      ansible.builtin.import_tasks:
+        file: helm.yml
+
+- name: For k3s
+  ansible.builtin.import_tasks:
+    file: k3s.yml
+
+- name: Update all packages to their latest version
+  ansible.builtin.apt:
+    name: "*"
+    state: latest # noqa package-latest
+    update_cache: true
+  become: true

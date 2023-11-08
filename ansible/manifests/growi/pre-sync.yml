@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: image-pull-job
+  namespace: growi
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  ttlSecondsAfterFinished: 10
+  backoffLimit: 0
+  template:
+    spec:
+      containers:
+        - name: growi
+          image: ghcr.io/isec-tut/containers/growi@sha256:9cae70af419d1136054cb4dea2268c9dfdb349f476d3fb398a7c751e554eee38
+          command: ["/bin/sh"]
+          args: ["-c", "exit 0"]
+      restartPolicy: Never

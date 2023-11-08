@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cloudflared
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: hackmd
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: growi
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nextcloud

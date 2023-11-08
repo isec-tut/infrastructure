@@ -1,0 +1,97 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: hackmd
+  name: hackmd
+  namespace: hackmd
+spec:
+  replicas: 1
+  serviceName: hackmd
+  selector:
+    matchLabels:
+      app: hackmd
+  template:
+    metadata:
+      labels:
+        app: hackmd
+    spec:
+      containers:
+        - name: hackmd
+          image: ghcr.io/isec-tut/containers/hackmd@sha256:1e5f1b523c952ee71f930d7be5ca086c4d7615ebf6478d564ce412b16ebe102f
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+              name: hackmd
+          env:
+            - name: GROWI_URI
+              value: https://wiki.isec-lab.org
+            - name: CMD_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: hackmd-secrets
+                  key: hackmd_mariadb_uri
+            - name: CMD_CSP_ENABLE
+              value: "false"
+            - name: CMD_ALLOW_EMAIL_REGISTER
+              value: "false"
+            - name: CMD_ALLOW_ANONYMOUS_VIEWS
+              value: "false"
+            - name: CMD_ALLOW_ANONYMOUS_EDITS
+              value: "false"
+            - name: CMD_DEFAULT_PERMISSION
+              value: limited
+          volumeMounts:
+            - name: secrets
+              mountPath: /secrets
+          resources:
+            requests:
+              cpu: 300m
+              memory: 200Mi
+            limits:
+              cpu: 500m
+              memory: 1000Mi
+      volumes:
+        - name: secrets
+          secret:
+            secretName: hackmd-secrets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: hackmd
+  name: hackmd
+  namespace: hackmd
+spec:
+  ports:
+    - name: hackmd
+      port: 3000
+      targetPort: hackmd
+  selector:
+    app: hackmd
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-hackmd
+  namespace: hackmd
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-cluster-issuer
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - hackmd.isec-lab.org
+      secretName: hackmd-cert
+  rules:
+    - host: hackmd.isec-lab.org
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: hackmd
+                port:
+                  name: hackmd

@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: image-pull-job
+  namespace: hackmd
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  ttlSecondsAfterFinished: 10
+  backoffLimit: 0
+  template:
+    spec:
+      containers:
+        - name: hackmd
+          image: ghcr.io/isec-tut/containers/hackmd@sha256:1e5f1b523c952ee71f930d7be5ca086c4d7615ebf6478d564ce412b16ebe102f
+          command: ["/bin/sh"]
+          args: ["-c", "exit 0"]
+      restartPolicy: Never

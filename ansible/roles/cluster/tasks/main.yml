@@ -1,0 +1,90 @@
+---
+# file: roles/cluster/tasks/main.yml
+- name: Setup cluster
+  become: false
+  block:
+    - name: Import helm.yml
+      ansible.builtin.import_tasks:
+        file: helm.yml
+
+    - name: Import metallb.yml
+      ansible.builtin.import_tasks:
+        file: metallb.yml
+
+    - name: Import ingress-nginx.yml
+      ansible.builtin.import_tasks:
+        file: ingress-nginx.yml
+
+    - name: Import cert-manager.yml
+      ansible.builtin.import_tasks:
+        file: cert-manager.yml
+
+    - name: Create the 'auth' namespace
+      kubernetes.core.k8s:
+        state: present
+        api_version: v1
+        name: auth
+        kind: Namespace
+
+    - name: Apply the auth ingress config
+      kubernetes.core.k8s:
+        state: present
+        template: auth-ingress.yml.j2
+      become: false
+
+    - name: Import dex.yml
+      ansible.builtin.import_tasks:
+        file: dex.yml
+
+    - name: Import oauth2-proxy.yml
+      ansible.builtin.import_tasks:
+        file: oauth2-proxy.yml
+
+    - name: Import argo-cd.yml
+      ansible.builtin.import_tasks:
+        file: argo-cd.yml
+
+    - name: Import kubernetes-replicator.yml
+      ansible.builtin.import_tasks:
+        file: kubernetes-replicator.yml
+
+    - name: Import hashicorp-vault.yml
+      ansible.builtin.import_tasks:
+        file: hashicorp-vault.yml
+
+    - name: Create the 'fqdn' namespace
+      kubernetes.core.k8s:
+        state: present
+        api_version: v1
+        name: fqdn
+        kind: Namespace
+      become: false
+
+    - name: Create the fqdn/fqdn-secrets
+      kubernetes.core.k8s:
+        state: present
+        api_version: v1
+        namespace: fqdn
+        name: fqdn-secrets
+        kind: Secret
+        definition:
+          type: Opaque
+          data:
+            auth_fqdn: "{{ auth_fqdn | b64encode }}"
+      become: false
+
+    - name: Create the storage class
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', 'manifests/storage-class.yml') | from_yaml_all }}"
+      become: false
+
+- name: Wait for all pods to be ready
+  ansible.builtin.command:
+    cmd: kubectl get pods -A -o jsonpath='{.items[*].status.conditions[?(@.type=="Ready")].status}'
+  register: result
+  until: result.stdout.find("False") == -1
+  retries: 60
+  delay: 10
+  changed_when: false
+  become: false

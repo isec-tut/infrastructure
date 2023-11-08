@@ -1,0 +1,6 @@
+.DS_Store
+.vscode
+*.env
+vault.yml
+*.gpg
+!.gitkeep

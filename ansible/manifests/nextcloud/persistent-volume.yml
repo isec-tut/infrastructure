@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nextcloud-pv
+spec:
+  capacity:
+    storage: 30Gi
+  accessModes:
+    - ReadWriteOncePod
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: iscsi-ssd-storage
+  claimRef:
+    namespace: nextcloud
+    name: app-nextcloud-0
+  iscsi:
+    targetPortal: 172.16.50.50:3260
+    iqn: iqn.2005-10.org.freenas.ctl:nextcloud
+    lun: 0
+    fsType: xfs
+    readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nextcloud-data-pv
+spec:
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteOncePod
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: iscsi-ssd-storage
+  claimRef:
+    namespace: nextcloud
+    name: data-nextcloud-0
+  iscsi:
+    targetPortal: 172.16.50.50:3260
+    iqn: iqn.2005-10.org.freenas.ctl:nextcloud-data
+    lun: 0
+    fsType: xfs
+    readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nextcloud-mariadb-pv
+spec:
+  capacity:
+    storage: 30Gi
+  accessModes:
+    - ReadWriteOncePod
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: iscsi-ssd-storage
+  claimRef:
+    namespace: nextcloud
+    name: data-nextcloud-mariadb-0
+  iscsi:
+    targetPortal: 172.16.50.50:3260
+    iqn: iqn.2005-10.org.freenas.ctl:nextcloud-mariadb
+    lun: 0
+    fsType: xfs
+    readOnly: false

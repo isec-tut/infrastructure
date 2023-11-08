@@ -1,0 +1,35 @@
+# domain
+domain: "isec-lab.org"
+# metallb
+metallb_ipv4_range: "172.16.50.120-172.16.50.150"
+# nginx-ingress
+nginx_ingress_lb_v4_addr: "172.16.50.100"
+# acme
+cloudflare_token: "{{ vault_cloudflare_token }}"
+email: "{{ vault_email }}"
+# auth
+auth_fqdn: "{{ vault_auth_host }}.{{ domain }}"
+# dex
+dex_slack_client_id: "{{ vault_dex_slack_client_id }}"
+dex_slack_client_secret: "{{ vault_dex_slack_client_secret }}"
+dex_slack_allowed_groups: "{{ vault_dex_slack_allowed_groups_id }}"
+# oauth2-proxy
+oauth2_proxy_client_secret: "{{ vault_oauth2_proxy_client_secret }}"
+# argo-cd
+argocd_fqdn: "{{ vault_argocd_host }}.{{ domain }}"
+argocd_grpc_fqdn: "grpc.{{ argocd_fqdn }}"
+argocd_client_secret: "{{ vault_argocd_client_secret }}"
+argocd_admin_password: "{{ vault_argocd_admin_password }}"
+# hashicorp vault
+hashicorp_vault_client_id: "{{ vault_hashicorp_vault_client_id }}"
+hashicorp_vault_client_secret: "{{ vault_hashicorp_vault_client_secret }}"
+hashicorp_vault_organization_id: "{{ vault_hashicorp_vault_organization_id }}"
+hashicorp_vault_project_id: "{{ vault_hashicorp_vault_project_id }}"
+# nextcloud
+nextcloud_host: "files"
+nextcloud_fqdn: "{{ nextcloud_host }}.{{ domain }}"
+nextcloud_client_secret: "{{ vault_nextcloud_client_secret }}"
+# growi
+growi_host: "wiki"
+growi_fqdn: "{{ growi_host }}.{{ domain }}"
+growi_client_secret: "{{ vault_growi_client_secret }}"

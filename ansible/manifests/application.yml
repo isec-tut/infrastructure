@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: server-config
+  namespace: argo-cd
+spec:
+  generators:
+    - list:
+        elements:
+          - name: cloudflared
+          - name: hackmd
+          - name: growi
+          - name: nextcloud
+  template:
+    metadata:
+      name: "{{name}}"
+    spec:
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "{{name}}"
+      project: default
+      source:
+        path: "ansible/manifests/{{name}}"
+        repoURL: https://github.com/isec-tut/infrastructure.git
+        targetRevision: main
+      syncPolicy:
+        automated: {}
+        syncOptions:
+          - ApplyOutOfSyncOnly=true
+          - CreateNamespace=true
+          - RespectIgnoreDifferences=true
+      ignoreDifferences:
+        - kind: Secret
+          jsonPointers:
+            - /data

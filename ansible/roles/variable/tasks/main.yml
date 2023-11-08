@@ -1,0 +1,19 @@
+---
+# file: roles/variable/tasks/main.yml
+- name: Get default network interface
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      ip route show default | sed -nE -e 's/.*dev (\w+).*/\1/p'
+    executable: /bin/bash
+  register: default_interface
+  changed_when: false
+
+- name: Get node IP
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      ip addr show dev {{ default_interface.stdout }} | sed -nE -e 's/.+inet ([0-9.]+).+/\1/p'
+    executable: /bin/bash
+  register: node_ip
+  changed_when: false

@@ -1,0 +1,103 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: growi-elasticsearch-conf
+  namespace: growi
+data:
+  elasticsearch.yml: |
+    http.host: 0.0.0.0
+
+    # for elasticsearch-head
+    http.cors.enabled: true
+    http.cors.allow-origin: "*"
+
+    xpack.security.enabled: false
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: growi-elasticsearch
+  name: growi-elasticsearch
+  namespace: growi
+spec:
+  replicas: 1
+  serviceName: growi-elasticsearch
+  selector:
+    matchLabels:
+      app: growi-elasticsearch
+  template:
+    metadata:
+      labels:
+        app: growi-elasticsearch
+    spec:
+      securityContext:
+        runAsUser: 1234
+        fsGroup: 1234
+      containers:
+        - name: elasticsearch
+          image: ghcr.io/isec-tut/containers/elasticsearch@sha256:4d772e11c2f5f500ec01ea8215cf8593cefb26a801059a6d3f25d38e9f345b59
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9200
+              name: elasticsearch
+          env:
+            - name: TZ
+              value: Asia/Tokyo
+            - name: ES_PORT
+              value: 0.0.0.0:9200
+            - name: bootstrap.memory_lock
+              value: "true"
+            - name: discovery.type
+              value: single-node
+            - name: ES_JAVA_OPTS
+              value: "-Xms5000m -Xmx5000m"
+            - name: LOG4J_FORMAT_MSG_NO_LOOKUPS
+              value: "true"
+          volumeMounts:
+            - name: data
+              mountPath: /usr/share/elasticsearch/data
+            - name: elasticsearch-conf
+              mountPath: /usr/share/elasticsearch/config/elasticsearch.yml
+              subPath: elasticsearch.yml
+              readOnly: true
+          resources:
+            requests:
+              cpu: 1000m
+              memory: 10000Mi
+            limits:
+              cpu: 2000m
+              memory: 15000Mi
+      volumes:
+        - name: elasticsearch-conf
+          configMap:
+            name: growi-elasticsearch-conf
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Delete
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          - ReadWriteOncePod
+        storageClassName: iscsi-ssd-storage
+        resources:
+          requests:
+            storage: 30Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: growi-elasticsearch
+  name: growi-elasticsearch
+  namespace: growi
+spec:
+  type: ClusterIP
+  ports:
+    - name: elasticsearch
+      port: 9200
+      targetPort: elasticsearch
+  selector:
+    app: growi-elasticsearch
