@@ -56,7 +56,7 @@ data:
     php /var/www/html/occ config:system:set oidc_login_client_id --value="nextcloud"
     php /var/www/html/occ config:system:set oidc_login_client_secret --value="$(cat /secrets/nextcloud_client_secret)"
     php /var/www/html/occ config:system:set oidc_login_default_group --value="User"
-    php /var/www/html/occ config:system:set oidc_login_attributes id --value="id"
+    php /var/www/html/occ config:system:set oidc_login_attributes id --value="sub"
     php /var/www/html/occ config:system:set oidc_login_attributes name --value="name"
     php /var/www/html/occ config:system:set oidc_login_attributes mail --value="email"
     php /var/www/html/occ config:system:set oidc_login_disable_registration --type=boolean --value=false
