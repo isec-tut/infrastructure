@@ -88,9 +88,9 @@ isec@ubuntu:~/infrastructure/terraform$ make vm
 - IP address: `172.16.50.15`
 - SSH: SSHはパスワードでのログインが禁止されており、ハードウェアトークンを用いてのみSSHログイン可能
 - User: `isec` sudoはパスワードなしで実行可能
-- Password: vaultのリポジトリのディレクトリで以下のコマンドを実行することで閲覧可能
+- Password: 以下のコマンドを実行することで閲覧可能
   ```bash
-  isec@ubuntu:~/vault$ PASSWORD_STORE_DIR=$(pwd) pass infra/terraform/k3s/password
+  isec@ubuntu:~/infrastructure$ pass infra/vm/k3s/password
   ```
 
 テンプレートイメージはUbuntu 22.04のcloud-imageを使用しており、cloud-imageは毎日ビルドされているので、ベースを更新したいときは以下のように`update-template`すればテンプレートが更新される。
