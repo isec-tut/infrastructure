@@ -41,12 +41,8 @@ root@pve:~$ pvesh create /access/users/terraform-prov@pve/token/terraform --priv
 
 
 ```bash
-# 同じディレクトリに3のリポジトリをクローンしてるものとする
-isec@ubuntu:~/infrastructure/terraform$ ls ../../
-containers  infrastructure  vault
-isec@ubuntu:~/infrastructure/terraform$ cd ../../vault
 # 以下でvaultに暗号化された機密情報を編集するためにエディタが起動する
-isec@ubuntu:~/vault$ PASSWORD_STORE_DIR=$(pwd) pass edit infra/terraform/tfvars
+isec@ubuntu:~/infrastructure$ pass edit infra/terraform/tfvars
 ```
 
 以下のようなファイルになっているので `proxmox.token_secret` を先ほど表示されたtoken(例では`d19b28f7-3756-4158-92e5-e6c033fa9e00`)を入力し保存します。
@@ -72,7 +68,8 @@ userdata = {
 変更すると自動的にcommitされるので忘れずにpushしておく。
 
 ```bash
-isec@ubuntu:~/vault$ git push
+isec@ubuntu:~/infrastructure$ pass git log # 変更確認
+isec@ubuntu:~/infrastructure$ pass git push
 ```
 
 ## 2. VMの作成
@@ -115,9 +112,9 @@ isec@ubuntu:~/infrastructure/terraform$ make update-template
 >
 > 実行中のVMは停止せずに新たにVMを作成したい場合は、`make`コマンドの引数に`TARGET_VM_ID`,`TARGET_VM_NAME`,`TARGET_VM_IP_ADDR`を指定することで重複せずにVMを作成できます。
 > デフォルトの値は以下の通りです。
-> - `TARGET_VM_ID` = 115
-> - `TARGET_VM_NAME` = isec-k3s
-> - `TARGET_VM_IP_ADDR` = 172.16.50.15
+> - `TARGET_VM_ID` = `115`
+> - `TARGET_VM_NAME` = `isec-k3s`
+> - `TARGET_VM_IP_ADDR` = `172.16.50.15`
 >
 > ```bash
 > # デフォルト値から変更してVMを作成する場合

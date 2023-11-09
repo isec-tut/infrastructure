@@ -1,4 +1,4 @@
-VAULT_DIR := $(CURDIR)/../../vault
+VAULT_DIR := $(CURDIR)/../vault
 
 TARGET_VM_IP_ADDR := 172.16.50.15
 
@@ -8,7 +8,7 @@ clean:
 
 .PHONY: credential
 credential:
-	PASSWORD_STORE_DIR=$(VAULT_DIR) pass infra/ansible/vault > $(CURDIR)/host_vars/k3s/vault.yml
+	PASSWORD_STORE_DIR=$(VAULT_DIR) pass infra/ansible/vault.yml > $(CURDIR)/host_vars/k3s/vault.yml
 
 .PHONY: cluster
 cluster: clean credential

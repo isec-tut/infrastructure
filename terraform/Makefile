@@ -1,4 +1,4 @@
-VAULT_DIR := $(CURDIR)/../../vault
+VAULT_DIR := $(CURDIR)/../vault
 
 PROXMOX_NODE := pve
 PROXMOX_ADDRESS := 172.16.50.2
