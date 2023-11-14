@@ -34,6 +34,14 @@ $ git clone --recursive git@github.com:isec-tut/infrastructure.git
 $ git submodule update --init
 ```
 
+vaultの更新をした場合は以下のようにサブモジュールの更新をしてください。
+```bash
+$ git submodule update --remote
+$ git add vault
+$ git commit -m "Update submodule: vault"
+$ git push
+```
+
 #### 1.2.2 pass setting
 
 サブモジュールのvaultというリポジトリに`pass`により管理され暗号化されたパスワードが含まれていますので`pass`にこのディレクトリを教えてあげる必要があります。
