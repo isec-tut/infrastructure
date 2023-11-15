@@ -5,10 +5,10 @@ metadata:
   namespace: growi
 data:
   init.sh: |
-    set -e
+    #!/bin/sh
 
-    mongosh -u root -p <<EOF
-    $(cat /secrets/growi_mongodb_root_password)
+    mongosh -u root -p $(cat /secrets/growi_mongodb_root_password) <<EOF
+
     use growi
 
     db.createUser({
@@ -79,6 +79,7 @@ spec:
             secretName: growi-secrets
         - name: init
           configMap:
+            defaultMode: 0777
             name: mongodb-init
   persistentVolumeClaimRetentionPolicy:
     whenDeleted: Delete
