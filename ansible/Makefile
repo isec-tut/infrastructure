@@ -5,10 +5,13 @@ TARGET_VM_IP_ADDR := 172.16.50.15
 .PHONY: clean
 clean:
 	rm -rf $(CURDIR)/host_vars/k3s/vault.yml
+	rm -rf $(CURDIR)/.ssh
+	mkdir -p $(CURDIR)/.ssh
 
 .PHONY: credential
 credential:
 	PASSWORD_STORE_DIR=$(VAULT_DIR) pass infra/ansible/vault.yml > $(CURDIR)/host_vars/k3s/vault.yml
+	PASSWORD_STORE_DIR=$(VAULT_DIR) pass keys/ssh/isec.pub > $(CURDIR)/.ssh/isec.pub
 
 .PHONY: cluster
 cluster: clean credential
