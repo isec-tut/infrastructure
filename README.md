@@ -34,6 +34,22 @@ $ git clone --recursive git@github.com:isec-tut/infrastructure.git
 $ git submodule update --init
 ```
 
+#### 1.2.2 pass setting
+
+サブモジュールのvaultというリポジトリに`pass`により管理され暗号化されたパスワードが含まれていますので`pass`にこのディレクトリを教えてあげる必要があります。
+```bash
+$ export PASSWORD_STORE_DIR=$(pwd)/vault
+or
+$ source ./env.sh
+```
+新たにターミナルを開いた場合でも忘れずに`PASSWORD_STORE_DIR`の設定をしてください。
+
+vaultにパスワード等を追加したときは自動的にコミットされるので以下のようにpushしてください。
+```bash
+$ pass insert test # testという秘密情報を追加
+$ pass git push origin HEAD:main # 自動的にコミットされているのでpushする
+```
+
 vaultの更新をした場合は以下のようにサブモジュールの更新をしてください。
 ```bash
 $ git submodule update --remote
@@ -41,11 +57,3 @@ $ git add vault
 $ git commit -m "Update submodule: vault"
 $ git push
 ```
-
-#### 1.2.2 pass setting
-
-サブモジュールのvaultというリポジトリに`pass`により管理され暗号化されたパスワードが含まれていますので`pass`にこのディレクトリを教えてあげる必要があります。
-```bash
-$ export PASSWORD_STORE_DIR=$(pwd)/vault
-```
-新たにターミナルを開いた場合でも忘れずに`PASSWORD_STORE_DIR`の設定をしてください。

@@ -23,6 +23,7 @@ configs:
     argocdServerAdminPassword: "{{ argocd_admin_password }}"
   params:
     server.insecure: true
+    reposerver.enable.git.submodule: false
 dex:
   enabled: false
 server:

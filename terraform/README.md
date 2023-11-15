@@ -77,6 +77,8 @@ isec@ubuntu:~/infrastructure$ pass git push
 Terraformを使って宣言的にVMの構成を管理しているので以下のコマンドを実行するだけで、Proxmox上にVMを作成することができます。
 
 ```bash
+# terraformのプラグインをダウンロードする
+isec@ubuntu:~/infrastructure/terraform$ terraform init
 # vmの元になるtemplate vmを作成する *初めに１回だけ実行すればよい*
 isec@ubuntu:~/infrastructure/terraform$ make template
 # template vmから新規にcloneしてvmを作成する
