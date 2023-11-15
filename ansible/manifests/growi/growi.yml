@@ -68,9 +68,6 @@ spec:
         - name: secrets
           secret:
             secretName: growi-secrets
-        - name: nginx-conf
-          configMap:
-            name: nginx-conf
   persistentVolumeClaimRetentionPolicy:
     whenDeleted: Delete
   volumeClaimTemplates:
