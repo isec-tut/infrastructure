@@ -1,5 +1,7 @@
 VAULT_DIR := $(CURDIR)/../vault
 
+SSH_KEY := `sed -n -r "s/.*ansible_ssh_private_key_file: (.*)/\1/p" inventory.yml`
+
 TARGET_VM_IP_ADDR := 172.16.50.15
 
 .PHONY: clean
@@ -22,9 +24,9 @@ cluster: clean credential
 .PHONY: app
 app:
 	cd $(CURDIR) ; \
-	cat manifests/application.yml | ssh isec@$(TARGET_VM_IP_ADDR) -i ../.ssh/gpg.pub kubectl apply -f -
+	cat manifests/application.yml | ssh isec@$(TARGET_VM_IP_ADDR) -i $(SSH_KEY) kubectl apply -f -
 
 .PHONY: delete-app
 delete-app:
 	cd $(CURDIR) ; \
-	cat manifests/application.yml | ssh isec@$(TARGET_VM_IP_ADDR) -i ../.ssh/gpg.pub kubectl delete -f -
+	cat manifests/application.yml | ssh isec@$(TARGET_VM_IP_ADDR) -i $(SSH_KEY) kubectl delete -f -
