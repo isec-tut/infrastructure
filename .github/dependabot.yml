@@ -32,7 +32,7 @@ updates:
     schedule:
       interval: "daily"
     ignore:
-      - dependency-name: "mongodb"
+      - dependency-name: "mongo"
         update-types:
           - "version-update:semver-major"
           - "version-update:semver-minor"
