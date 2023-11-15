@@ -12,6 +12,7 @@ variable "userdata" {
     user_name       = string
     hashed_password = string # mkpasswd --method=yescrypt (via whois)
     ssh_pub_key     = string
+    ssh_pub_key1    = string
   })
   sensitive = true
 }

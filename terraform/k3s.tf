@@ -7,6 +7,7 @@ data "template_file" "cloud_init_k3s_userdata" {
     user_name       = var.userdata.user_name
     hashed_password = var.userdata.hashed_password
     ssh_pub_key     = var.userdata.ssh_pub_key
+    ssh_pub_key1    = var.userdata.ssh_pub_key1
   }
 }
 
