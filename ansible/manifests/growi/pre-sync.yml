@@ -18,7 +18,7 @@ spec:
           command: ["/bin/sh"]
           args: ["-c", "exit 0"]
         - name: mongo
-          image: mongo:4.4
+          image: mongo:7.0
           command: ["/bin/sh"]
           args: ["-c", "exit 0"]
         - name: growi
