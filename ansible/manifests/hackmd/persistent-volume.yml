@@ -13,7 +13,7 @@ spec:
     namespace: hackmd
     name: data-hackmd-mariadb-0
   iscsi:
-    targetPortal: 172.16.50.50:3260
+    targetPortal: 172.16.50.3:3260
     iqn: iqn.2005-10.org.freenas.ctl:hackmd-mariadb
     lun: 0
     fsType: xfs

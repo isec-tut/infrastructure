@@ -22,16 +22,18 @@
 root@pve:~$ pvesm set local --content vztmpl,snippets,iso,backup
 
 # proxmoxにおけるterraformの実行ユーザを追加して、トークンを取得する
-root@pve:~$ pveum role add TerraformProv -privs "SDN.Use Datastore.AllocateSpace Datastore.Audit Pool.Allocate Sys.Audit Sys.Console Sys.Modify VM.Allocate VM.Audit VM.Clone VM.Config.CDROM VM.Config.Cloudinit VM.Config.CPU VM.Config.Disk VM.Config.HWType VM.Config.Memory VM.Config.Network VM.Config.Options VM.Migrate VM.Monitor VM.PowerMgmt"
+root@pve:~$ pveum role add Terraform -privs "Datastore.Allocate Datastore.AllocateSpace Datastore.AllocateTemplate Datastore.Audit Pool.Allocate Sys.Audit Sys.Console Sys.Modify SDN.Use VM.Allocate VM.Audit VM.Clone VM.Config.CDROM VM.Config.Cloudinit VM.Config.CPU VM.Config.Disk VM.Config.HWType VM.Config.Memory VM.Config.Network VM.Config.Options VM.Migrate VM.Monitor VM.PowerMgmt User.Modify"
 
-root@pve:~$ pveum user add terraform-prov@pve --password $(openssl rand -base64 32)
-root@pve:~$ pveum aclmod / -user terraform-prov@pve -role TerraformProv
+root@pve:~$ pveum user add terraform@pve
+
+root@pve:~$ pveum aclmod / -user terraform@pve -role Terraform
+
 # 最後に作成したtoken(以下の例では`d19b28f7-3756-4158-92e5-e6c033fa9e00`)をvaultに反映する必要がある
-root@pve:~$ pvesh create /access/users/terraform-prov@pve/token/terraform --privsep 0
+root@pve:~$ pvesh create /access/users/terraform@pve/token/terraform --privsep 0
 ┌──────────────┬──────────────────────────────────────┐
 │ key          │ value                                │
 ╞══════════════╪══════════════════════════════════════╡
-│ full-tokenid │ terraform-prov@pve!terraform         │
+│ full-tokenid │ terraform@pve!terraform              │
 ├──────────────┼──────────────────────────────────────┤
 │ info         │ {"privsep":"0"}                      │
 ├──────────────┼──────────────────────────────────────┤
@@ -49,10 +51,12 @@ isec@ubuntu:~/infrastructure$ pass edit infra/terraform/tfvars
 
 ```terraform
 proxmox = {
-  api_url      = "dummy"
-  token_id     = "dummy"
-  token_secret = "d19b28f7-3756-4158-92e5-e6c033fa9e00"
+  endpoint  = "https://pve./"
+  user      = "root@pam"
+  pass      = "dummy"
+  api_token = "terraform@pve!terraform=d19b28f7-3756-4158-92e5-e6c033fa9e00"
 }
+
 
 userdata = {
   user_name       = "dummy"
@@ -69,7 +73,14 @@ userdata = {
 
 ```bash
 isec@ubuntu:~/infrastructure$ pass git log # 変更確認
-isec@ubuntu:~/infrastructure$ pass git push
+isec@ubuntu:~/infrastructure$ pass git push origin HEAD:main
+```
+サブモジュールの更新も忘れずに行う。
+```bash
+isec@ubuntu:~/infrastructure$ git submodule update --remote
+isec@ubuntu:~/infrastructure$ git add vault
+isec@ubuntu:~/infrastructure$ git commit -m "Update submodule: vault"
+isec@ubuntu:~/infrastructure$ git push
 ```
 
 ## 2. VMの作成

@@ -1,8 +1,9 @@
 variable "proxmox" {
   type = object({
-    api_url      = string
-    token_id     = string
-    token_secret = string
+    endpoint  = string
+    user      = string
+    pass      = string
+    api_token = string
   })
   sensitive = true
 }
@@ -20,6 +21,10 @@ variable "userdata" {
 locals {
   k3s = {
     vmid                 = 115
+    template_vmid        = 9000
+    memory               = 40960
+    cores                = 4
+    onboot               = true
     proxmox_node         = "pve"
     proxmox_address      = "172.16.50.2"
     hostname             = "isec-k3s"

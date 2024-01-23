@@ -13,7 +13,7 @@ spec:
     namespace: nextcloud
     name: app-nextcloud-0
   iscsi:
-    targetPortal: 172.16.50.50:3260
+    targetPortal: 172.16.50.3:3260
     iqn: iqn.2005-10.org.freenas.ctl:nextcloud
     lun: 0
     fsType: xfs
@@ -34,7 +34,7 @@ spec:
     namespace: nextcloud
     name: data-nextcloud-0
   iscsi:
-    targetPortal: 172.16.50.50:3260
+    targetPortal: 172.16.50.3:3260
     iqn: iqn.2005-10.org.freenas.ctl:nextcloud-data
     lun: 0
     fsType: xfs
@@ -55,7 +55,7 @@ spec:
     namespace: nextcloud
     name: data-nextcloud-mariadb-0
   iscsi:
-    targetPortal: 172.16.50.50:3260
+    targetPortal: 172.16.50.3:3260
     iqn: iqn.2005-10.org.freenas.ctl:nextcloud-mariadb
     lun: 0
     fsType: xfs

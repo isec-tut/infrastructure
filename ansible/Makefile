@@ -2,7 +2,7 @@ VAULT_DIR := $(CURDIR)/../vault
 
 SSH_KEY := `sed -n -r "s/.*ansible_ssh_private_key_file: (.*)/\1/p" inventory.yml`
 
-TARGET_VM_IP_ADDR := 172.16.50.15
+TARGET_VM_IP_ADDR := `sed -n -r "s/.*ansible_host: (.*)/\1/p" inventory.yml`
 
 .PHONY: clean
 clean:
@@ -18,7 +18,6 @@ credential:
 .PHONY: cluster
 cluster: clean credential
 	cd $(CURDIR) ; \
-	sed -i -r -e 's/(.*ansible_host: ).*/\1$(TARGET_VM_IP_ADDR)/g' inventory.yml && \
 	ansible-playbook setup-cluster.yml
 
 .PHONY: app

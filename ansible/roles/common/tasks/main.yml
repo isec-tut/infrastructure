@@ -51,10 +51,6 @@
       ansible.builtin.import_tasks:
         file: kernel.yml
 
-    - name: Import watchdog.yml
-      ansible.builtin.import_tasks:
-        file: watchdog.yml
-
     - name: Import argo-cd.yml
       ansible.builtin.import_tasks:
         file: argo-cd.yml
