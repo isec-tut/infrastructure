@@ -40,7 +40,7 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
       containers:
         - name: nextcloud
-          image: ghcr.io/isec-tut/containers/nextcloud@sha256:00a6ae62e7dccf5ee967810c32010e6683998d63dd7e6d6ea8ba66193c8dff44
+          image: ghcr.io/isec-tut/containers/nextcloud@sha256:c43b1d049d6642ca4df00544742f2a67fa7d861f1dc8cc196ad86ba7b07fc464
           imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:
