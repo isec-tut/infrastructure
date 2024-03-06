@@ -11,7 +11,7 @@ clean:
 	mkdir -p $(CURDIR)/.ssh
 
 .PHONY: credential
-credential:
+credential: clean
 	PASSWORD_STORE_DIR=$(VAULT_DIR) pass infra/ansible/vault.yml > $(CURDIR)/host_vars/k3s/vault.yml
 	PASSWORD_STORE_DIR=$(VAULT_DIR) pass keys/ssh/isec.pub > $(CURDIR)/.ssh/isec.pub
 
