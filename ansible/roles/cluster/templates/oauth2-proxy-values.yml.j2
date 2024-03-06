@@ -1,7 +1,7 @@
-hostAlias:
-  enabled: true
-  ip: "{{ nginx_ingress_lb_v4_addr }}"
-  hostname: "{{ auth_fqdn }}"
+hostAliases:
+  - ip: "{{ nginx_ingress_lb_v4_addr }}"
+    hostnames:
+      - "{{ auth_fqdn }}"
 extraArgs:
   provider: oidc
   provider-display-name: dex
