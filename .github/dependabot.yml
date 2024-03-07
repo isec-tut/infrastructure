@@ -6,10 +6,10 @@ updates:
       interval: "weekly"
   # https://github.com/dependabot/dependabot-core/issues/2178
   # k8s manifests
-  # - package-ecosystem: "docker"
-  #   directory: "/ansible/manifests/cloudflared"
-  #   schedule:
-  #     interval: "daily"
+  - package-ecosystem: "docker"
+    directory: "/ansible/manifests/cloudflared"
+    schedule:
+      interval: "daily"
   - package-ecosystem: "docker"
     directory: "/ansible/manifests/nextcloud"
     schedule:
