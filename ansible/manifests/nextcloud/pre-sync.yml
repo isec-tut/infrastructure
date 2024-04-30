@@ -18,7 +18,7 @@ spec:
           command: ["/bin/sh"]
           args: ["-c", "exit 0"]
         - name: nextcloud
-          image: ghcr.io/isec-tut/containers/nextcloud@sha256:8e45fa1f5d412592b036097872021508be711e6a926b3126550a8d24b25824e7
+          image: ghcr.io/isec-tut/containers/nextcloud@sha256:55773d82de598c3ee4827cc240e5fea4e2f7532a71f4e3a834efda17daa3fe49
           command: ["/bin/sh"]
           args: ["-c", "exit 0"]
       restartPolicy: Never
