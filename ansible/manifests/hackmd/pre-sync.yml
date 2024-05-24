@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: mariadb
-          image: mariadb:10.11.7
+          image: mariadb:10.11.8
           command: ["/bin/sh"]
           args: ["-c", "exit 0"]
         - name: hackmd
