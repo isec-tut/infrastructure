@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: elasticsearch
-          image: ghcr.io/isec-tut/containers/elasticsearch@sha256:0bdbf64d93c4a6fcd240936133235bf237fa1c9003efa217d9b2f5b486cc4c20
+          image: ghcr.io/isec-tut/containers/elasticsearch@sha256:bf085aae7763d84f64a8e62eb43f18fedcebb8c359d7c158ff2f959ec6341f2f
           command: ["/bin/sh"]
           args: ["-c", "exit 0"]
         - name: mongo
