@@ -22,7 +22,7 @@ spec:
           command: ["/bin/sh"]
           args: ["-c", "exit 0"]
         - name: growi
-          image: ghcr.io/isec-tut/containers/growi@sha256:b68ebf1e67456aae7cc41819ad635712557ac83811dffd80458c7385bee57cd6
+          image: ghcr.io/isec-tut/containers/growi@sha256:fd65029df6703f82a332e8eb32f0e86272fd50a3be66d6bfd19ab643323dd5b5
           command: ["/bin/sh"]
           args: ["-c", "exit 0"]
       restartPolicy: Never
