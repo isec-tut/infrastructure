@@ -38,7 +38,7 @@ spec:
     spec:
       containers:
         - name: growi
-          image: ghcr.io/isec-tut/containers/growi@sha256:5e0ba6d00a19a587701dd83a24284ce640cdc5a6e703fede55599eb0c88a1357
+          image: ghcr.io/isec-tut/containers/growi@sha256:40d2b9465e4614e4f9e5e613f565090dfd774a3a4ae3b5501f26e91bfb345dec
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
