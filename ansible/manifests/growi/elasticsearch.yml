@@ -37,7 +37,7 @@ spec:
         fsGroup: 1234
       containers:
         - name: elasticsearch
-          image: ghcr.io/isec-tut/containers/elasticsearch@sha256:daf51ecd6f9a90c58f6e71e1e899031bea6b18e5d4cf964cb6ed190e34bf6df1
+          image: ghcr.io/isec-tut/containers/elasticsearch@sha256:e2e4cf9b2f4920eae56c92b8f6f8c4025e2bddabe0b0dca3bf069a66c810877f
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 9200
