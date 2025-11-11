@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: mariadb
-          image: mariadb:10.6.23
+          image: mariadb:10.6.24
           command: ["/bin/sh"]
           args: ["-c", "exit 0"]
         - name: nextcloud
