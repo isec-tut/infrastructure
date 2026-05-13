@@ -48,7 +48,7 @@ spec:
           serviceAccount: nextcloud
           containers:
             - name: kubectl
-              image: ghcr.io/isec-tut/containers/kubectl@sha256:a03d7ac4b30a543a0db5fd170fcb576ded9dfd09d340d75ab27a973f1e5b7cc1
+              image: ghcr.io/isec-tut/containers/kubectl@sha256:3233130e3b8e96c67309817178352c62344c16e2af4be7de8b575dff49d38b33
               imagePullPolicy: IfNotPresent
               args:
                 [
