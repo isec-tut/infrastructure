@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: growi-plantuml
-          image: plantuml/plantuml-server:v1.2026.9
+          image: plantuml/plantuml-server:v1.2026.10
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
